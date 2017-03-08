@@ -1,0 +1,27 @@
+{
+    "name": "dwoo/symfony-bundle",
+    "license": "LGPL",
+    "type": "library",
+    "authors": [
+        {
+            "name": "David Sanchez",
+            "email": "david38sanchez@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Dwoo\\SymfonyBundle\\": "./"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dwoo\\SymfonyBundle\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^5.3|^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.8.27"
+    }
+}
