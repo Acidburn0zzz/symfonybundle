@@ -4,6 +4,7 @@ namespace Dwoo\SymfonyBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
@@ -36,8 +37,19 @@ class DwooExtension extends Extension
         /**
          * Load configuration
          */
-        $configuration = new Configuration();
-        $config        = $this->processConfiguration($configuration, $configs);
+        $configuration    = new Configuration();
+        $config           = $this->processConfiguration($configuration, $configs);
+        $engineDefinition = $container->getDefinition('templating.engine.dwoo');
+
+        if (!empty($config['globals'])) {
+            foreach ($config['globals'] as $key => $global) {
+                if (isset($global['type']) && 'service' === $global['type']) {
+                    $engineDefinition->addMethodCall('addGlobal', [$key, new Reference($global['id'])]);
+                } else {
+                    $engineDefinition->addMethodCall('addGlobal', [$key, $global['value']]);
+                }
+            }
+        }
 
         $container->setParameter('dwoo.options', $config['options']);
     }

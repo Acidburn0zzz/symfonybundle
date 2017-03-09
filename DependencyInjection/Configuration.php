@@ -35,6 +35,7 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode    = $treeBuilder->root('dwoo');
 
+        $this->addGlobalsSection($rootNode);
         $this->addDwooOptions($rootNode);
 
         return $treeBuilder;
@@ -59,5 +60,48 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end();
+    }
+
+    /**
+     * Template globals.
+     *
+     * @param ArrayNodeDefinition $rootNode
+     */
+    protected function addGlobalsSection(ArrayNodeDefinition $rootNode)
+    {
+       $rootNode
+            ->children()
+                ->arrayNode('globals')
+                    ->useAttributeAsKey('key')
+                    ->prototype('array')
+                        ->beforeNormalization()
+                            ->ifTrue(function ($v) { return is_string($v) && '@' === substr($v, 0, 1); })
+                            ->then(function ($v) { return array('id' => substr($v, 1), 'type' => 'service'); })
+                        ->end()
+                        ->beforeNormalization()
+                            ->ifTrue(function ($v) {
+                                if (is_array($v)) {
+                                    $keys = array_keys($v);
+                                    sort($keys);
+                                    return $keys !== array('id', 'type') && $keys !== array('value');
+                                }
+                                return true;
+                            })
+                            ->then(function ($v) { return array('value' => $v); })
+                        ->end()
+                        ->children()
+                            ->scalarNode('id')->end()
+                            ->scalarNode('type')
+                                ->validate()
+                                    ->ifNotInArray(array('service'))
+                                    ->thenInvalid('The %s type is not supported')
+                                ->end()
+                            ->end()
+                            ->variableNode('value')->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
     }
 }
