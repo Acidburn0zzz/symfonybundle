@@ -4,7 +4,7 @@ This [Symfony](http://symfony.com/) bundle provides integration for [Dwoo](http:
 
 Requirements
 ------------
-* PHP >= **5.3**
+* PHP >= **5.5**
 * Dwoo **1.3**
 * Symfony >= **2.8**
 
