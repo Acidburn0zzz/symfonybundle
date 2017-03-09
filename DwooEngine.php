@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Templating\TemplateNameParserInterface;
 use Symfony\Component\Templating\TemplateReferenceInterface;
-use Symfony\Component\Translation\Loader\LoaderInterface;
+use Symfony\Component\Templating\Loader\LoaderInterface;
 
 /**
  * DwooEngine is an engine able to render Dwoo templates.
