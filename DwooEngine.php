@@ -163,7 +163,7 @@ class DwooEngine implements EngineInterface
         }
 
         $template = $this->parser->parse($name);
-        $template = $this->loader->load($template, '');
+        $template = $this->loader->load($template);
 
         if (false === $template) {
             throw new \InvalidArgumentException(sprintf('The template "%s" does not exist.', $name));
