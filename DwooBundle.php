@@ -1,6 +1,7 @@
 <?php
 namespace Dwoo\SymfonyBundle;
 
+use Dwoo\SymfonyBundle\DependencyInjection\Compiler\RegisterExtensionsPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -26,5 +27,7 @@ class DwooBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
+
+        $container->addCompilerPass(new RegisterExtensionsPass());
     }
 }
