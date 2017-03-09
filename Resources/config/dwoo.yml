@@ -6,6 +6,6 @@ services:
     tags:
       - { name: templating.engine }
       - { name: monolog.logger, channel: DwooBundle }
-    arguments: ["@dwoo", "%dwoo.options%", "@?templating.globals"]
+    arguments: ["@dwoo", "@templating.name_parser", "@templating.loader", "%dwoo.options%", "@?templating.globals"]
   dwoo_engine: "@templating.engine.dwoo"
   dwoo.engine: "@templating.engine.dwoo"

@@ -2,13 +2,19 @@
 namespace Dwoo\SymfonyBundle;
 
 use Dwoo\Core;
+use Dwoo\Data;
+use Dwoo\ITemplate;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Templating\TemplateNameParserInterface;
 use Symfony\Component\Templating\TemplateReferenceInterface;
+use Symfony\Component\Translation\Loader\LoaderInterface;
 
 /**
- * Class DwooEngine
+ * DwooEngine is an engine able to render Dwoo templates.
+ * This class is heavily inspired by \Twig_Environment.
+ * See {@link http://twig.sensiolabs.org/doc/api.html} for details about \Twig_Environment.
  *
  * @package Dwoo\SymfonyBundle
  */
@@ -18,19 +24,30 @@ class DwooEngine implements EngineInterface
     /** @var Core */
     protected $core;
 
+    /** @var TemplateNameParserInterface */
+    protected $parser;
+
+    /** @var LoaderInterface */
+    protected $loader;
+
     /** @var  array */
     protected $globals = [];
 
     /**
      * DwooEngine constructor.
      *
-     * @param Core            $core    A Dwoo\Core instance
-     * @param array           $options A ContainerInterface instance
-     * @param GlobalVariables $globals A GlobalVariables instance or null
+     * @param Core                        $core    A Dwoo\Core instance
+     * @param TemplateNameParserInterface $parser  A TemplateNameParserInterface instance
+     * @param LoaderInterface             $loader  A LoaderInterface instance
+     * @param array                       $options An array of \Dwoo\Core properties
+     * @param GlobalVariables             $globals A GlobalVariables instance or null
      */
-    public function __construct(Core $core, array $options = [], GlobalVariables $globals = null)
+    public function __construct(Core $core, TemplateNameParserInterface $parser, LoaderInterface $loader,
+                                array $options = [], GlobalVariables $globals = null)
     {
-        $this->core = $core;
+        $this->core   = $core;
+        $this->parser = $parser;
+        $this->loader = $loader;
 
         foreach ($options as $property => $value) {
             $this->core->{$this->propertyToSetter($property)}($value);
@@ -53,7 +70,13 @@ class DwooEngine implements EngineInterface
      */
     public function renderResponse($view, array $parameters = [], Response $response = null)
     {
-        // TODO: Implement renderResponse() method.
+        if (null === $response) {
+            $response = new Response();
+        }
+
+        $response->setContent($this->render($view, $parameters));
+
+        return $response;
     }
 
     /**
@@ -67,7 +90,23 @@ class DwooEngine implements EngineInterface
      */
     public function render($name, array $parameters = [])
     {
-        // TODO: Implement render() method.
+        $template = $this->load($name);
+
+        // attach the global variables
+        $parameters = array_replace($this->globals, $parameters);
+
+        /**
+         * Assign variables/objects to the templates.
+         */
+        $data = new Data();
+        $data->assign($parameters);
+
+        try {
+            return $this->core->get($template, $data);
+        }
+        catch (\Exception $e) {
+            return sprintf('"%s"', $e->getMessage());
+        }
     }
 
     /**
@@ -80,7 +119,14 @@ class DwooEngine implements EngineInterface
      */
     public function exists($name)
     {
-        // TODO: Implement exists() method.
+        try {
+            $this->load($name);
+        }
+        catch (\InvalidArgumentException $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -92,7 +138,38 @@ class DwooEngine implements EngineInterface
      */
     public function supports($name)
     {
-        // TODO: Implement supports() method.
+        if ($name instanceof ITemplate) {
+            return true;
+        }
+
+        $template = $this->parser->parse($name);
+
+        // Keep 'tpl' for backwards compatibility.
+        return in_array($template->get('engine'), ['smarty', 'tpl'], true);
+    }
+
+    /**
+     * Loads the given template.
+     *
+     * @param string $name A template name
+     *
+     * @return mixed The resource handle of the template file or template object
+     * @throws \InvalidArgumentException if the template cannot be found
+     */
+    public function load($name)
+    {
+        if ($name instanceof ITemplate) {
+            return $name;
+        }
+
+        $template = $this->parser->parse($name);
+        $template = $this->loader->load($template, '');
+
+        if (false === $template) {
+            throw new \InvalidArgumentException(sprintf('The template "%s" does not exist.', $name));
+        }
+
+        return (string)$template;
     }
 
     /**
