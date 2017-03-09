@@ -90,8 +90,6 @@ class DwooEngine implements EngineInterface
      */
     public function render($name, array $parameters = [])
     {
-        $template = $this->load($name);
-
         // attach the global variables
         $parameters = array_replace($this->globals, $parameters);
 
@@ -102,7 +100,7 @@ class DwooEngine implements EngineInterface
         $data->assign($parameters);
 
         try {
-            return $this->core->get($template, $data);
+            return $this->core->get($name, $data);
         }
         catch (\Exception $e) {
             return sprintf('"%s"', $e->getMessage());
