@@ -1,9 +1,11 @@
 services:
   dwoo:
     class: Dwoo\Core
-  template.engine.dwoo:
+  templating.engine.dwoo:
     class: Dwoo\SymfonyBundle\DwooEngine
     tags:
       - { name: templating.engine }
       - { name: monolog.logger, channel: DwooBundle }
     arguments: [@dwoo]
+  dwoo_engine: @templating.engine.dwoo
+  dwoo.engine: @templating.engine.dwoo
