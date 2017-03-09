@@ -1,5 +1,5 @@
 <?php
-namespace Dwoo\SymfonyBundle;
+namespace Dwoo\SymfonyBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
