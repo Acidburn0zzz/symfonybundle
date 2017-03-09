@@ -7,9 +7,11 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * Class DwooExtension
+ * DwooExtension
+ * This is the class that loads and manages DwooBundle configuration
+ * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  *
- * @package Dwoo\SymfonyBundle
+ * @package Dwoo\SymfonyBundle\DependencyInjection
  */
 class DwooExtension extends Extension
 {
