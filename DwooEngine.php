@@ -3,6 +3,7 @@ namespace Dwoo\SymfonyBundle;
 
 use Dwoo\Core;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Templating\TemplateReferenceInterface;
 
@@ -17,15 +18,27 @@ class DwooEngine implements EngineInterface
     /** @var Core */
     protected $core;
 
+    /** @var  array */
+    protected $globals = [];
+
     /**
      * DwooEngine constructor.
      *
-     * @param Core  $core
-     * @param array $options
+     * @param Core            $core    A Dwoo\Core instance
+     * @param array           $options A ContainerInterface instance
+     * @param GlobalVariables $globals A GlobalVariables instance or null
      */
-    public function __construct(Core $core, array $options = [])
+    public function __construct(Core $core, array $options = [], GlobalVariables $globals = null)
     {
         $this->core = $core;
+
+        foreach ($options as $property => $value) {
+            $this->core->{$this->propertyToSetter($property)}($value);
+        }
+
+        if (null !== $globals) {
+            $this->addGlobal('app', $globals);
+        }
     }
 
     /**
@@ -80,5 +93,31 @@ class DwooEngine implements EngineInterface
     public function supports($name)
     {
         // TODO: Implement supports() method.
+    }
+
+    /**
+     * Registers a Global.
+     *
+     * @param string $name  The global name
+     * @param mixed  $value The global value
+     */
+    public function addGlobal($name, $value)
+    {
+        $this->globals[$name] = $value;
+    }
+
+    /**
+     * Get the setter method for a Dwoo class variable (property).
+     * You may use this method to generate addSomeProperty() or getSomeProperty()
+     * kind of methods by setting the $prefix parameter to "add" or "get".
+     *
+     * @param string $property
+     * @param string $prefix
+     *
+     * @return string
+     */
+    protected function propertyToSetter($property, $prefix = 'set')
+    {
+        return $prefix . str_replace(' ', '', ucwords(str_replace('_', ' ', $property)));
     }
 }
