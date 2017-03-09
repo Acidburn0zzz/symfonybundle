@@ -145,7 +145,7 @@ class DwooEngine implements EngineInterface
         $template = $this->parser->parse($name);
 
         // Keep 'tpl' for backwards compatibility.
-        return in_array($template->get('engine'), ['smarty', 'tpl'], true);
+        return in_array($template->get('engine'), ['dwoo', 'tpl'], true);
     }
 
     /**
