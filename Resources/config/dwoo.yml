@@ -10,5 +10,5 @@ services:
   dwoo.templating.finder:
       class: Dwoo\SymfonyBundle\CacheWarmer\DwooTemplateFinder
       arguments: ["@kernel", "@templating.filename_parser", "%kernel.root_dir%/Resources"]
-  dwoo_engine: @templating.engine.dwoo
-  dwoo.engine: @templating.engine.dwoo
+  dwoo_engine: "@templating.engine.dwoo"
+  dwoo.engine: "@templating.engine.dwoo"
