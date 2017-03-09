@@ -9,8 +9,8 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 /**
  * DwooExtension
  * This is the class that loads and manages DwooBundle configuration
- * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  *
+ * @link    http://symfony.com/doc/current/cookbook/bundles/extension.html
  * @package Dwoo\SymfonyBundle\DependencyInjection
  */
 class DwooExtension extends Extension
@@ -26,8 +26,19 @@ class DwooExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        /**
+         * Load Yaml dwoo config file
+         */
         $loader = new YamlFileLoader($container,
             new FileLocator(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Resources/config'));
         $loader->load('dwoo.yml');
+
+        /**
+         * Load configuration
+         */
+        $configuration = new Configuration();
+        $config        = $this->processConfiguration($configuration, $configs);
+
+        $container->setParameter('dwoo.options', $config['options']);
     }
 }

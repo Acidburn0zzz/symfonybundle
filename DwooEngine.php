@@ -20,9 +20,10 @@ class DwooEngine implements EngineInterface
     /**
      * DwooEngine constructor.
      *
-     * @param Core $core
+     * @param Core  $core
+     * @param array $options
      */
-    public function __construct(Core $core)
+    public function __construct(Core $core, array $options = [])
     {
         $this->core = $core;
     }
