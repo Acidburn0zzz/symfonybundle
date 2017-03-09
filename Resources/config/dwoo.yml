@@ -1,17 +1,14 @@
 services:
   dwoo:
-    class: Dwoo\Core
-
+      class: Dwoo\Core
   templating.engine.dwoo:
-    class: Dwoo\SymfonyBundle\DwooEngine
-    tags:
-      - { name: templating.engine }
-      - { name: monolog.logger, channel: DwooBundle }
-    arguments: ["@dwoo", "@templating.name_parser", "@templating.loader", "%dwoo.options%", "@?templating.globals"]
-
-  dwoo_engine: "@templating.engine.dwoo"
-  dwoo.engine: "@templating.engine.dwoo"
-
+      class: Dwoo\SymfonyBundle\DwooEngine
+      tags:
+          - { name: templating.engine }
+          - { name: monolog.logger, channel: DwooBundle }
+      arguments: ["@dwoo", "@templating.name_parser", "@templating.loader", "%dwoo.options%", "@?templating.globals"]
   dwoo.templating.finder:
-    class: Dwoo\SymfonyBundle\CacheWarmer\DwooTemplateFinder
-    arguments: ["@kernel", "@templating.filename_parser", "%kernel.root_dir%/Resources"]
+      class: Dwoo\SymfonyBundle\CacheWarmer\DwooTemplateFinder
+      arguments: ["@kernel", "@templating.filename_parser", "%kernel.root_dir%/Resources"]
+  dwoo_engine: @templating.engine.dwoo
+  dwoo.engine: @templating.engine.dwoo
