@@ -216,6 +216,16 @@ class DwooEngine implements EngineInterface
     }
 
     /**
+     * Gets the registered Globals.
+     *
+     * @return array An array of Globals
+     */
+    public function getGlobals()
+    {
+        return $this->globals;
+    }
+
+    /**
      * Get the setter method for a Dwoo class variable (property).
      * You may use this method to generate addSomeProperty() or getSomeProperty()
      * kind of methods by setting the $prefix parameter to "add" or "get".
