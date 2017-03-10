@@ -22,6 +22,7 @@ namespace Dwoo\SymfonyBundle\Tests
 
         protected $core;
         protected $loader;
+        protected $compileDir;
 
         protected function setUp()
         {
@@ -29,15 +30,15 @@ namespace Dwoo\SymfonyBundle\Tests
                 $this->markTestSkipped('Dwoo is not available.');
             }
 
+            $this->compileDir = __DIR__ . DIRECTORY_SEPARATOR . 'compile';
+
             $this->core   = new Core();
             $this->loader = new ProjectTemplateLoader();
         }
 
         public function getDwooOptions()
         {
-            return [
-                'compile_dir' => __DIR__ . '/compile'
-            ];
+            return ['compile_dir' => $this->compileDir];
         }
 
         public function getDwooEngine(array $options = [], $global = null, $logger = null)
