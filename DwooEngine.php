@@ -6,6 +6,7 @@ use Dwoo\Data;
 use Dwoo\ITemplate;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Templating\TemplateNameParserInterface;
 use Symfony\Component\Templating\TemplateReferenceInterface;
@@ -36,14 +37,15 @@ class DwooEngine implements EngineInterface
     /**
      * DwooEngine constructor.
      *
-     * @param Core                        $core    A Dwoo\Core instance
-     * @param TemplateNameParserInterface $parser  A TemplateNameParserInterface instance
-     * @param LoaderInterface             $loader  A LoaderInterface instance
-     * @param array                       $options An array of \Dwoo\Core properties
-     * @param GlobalVariables             $globals A GlobalVariables instance or null
+     * @param Core                        $core      A Dwoo\Core instance
+     * @param ContainerInterface          $container A ContainerInterface instance
+     * @param TemplateNameParserInterface $parser    A TemplateNameParserInterface instance
+     * @param LoaderInterface             $loader    A LoaderInterface instance
+     * @param array                       $options   An array of \Dwoo\Core properties
+     * @param GlobalVariables             $globals   A GlobalVariables instance or null
      */
-    public function __construct(Core $core, TemplateNameParserInterface $parser, LoaderInterface $loader,
-                                array $options = [], GlobalVariables $globals = null)
+    public function __construct(Core $core, ContainerInterface $container, TemplateNameParserInterface $parser,
+                                LoaderInterface $loader, array $options = [], GlobalVariables $globals = null)
     {
         $this->core   = $core;
         $this->parser = $parser;
@@ -61,11 +63,33 @@ class DwooEngine implements EngineInterface
         }
 
         /**
-         * Set global variables
+         * Define a set of template dirs to look for. This will allow the
+         * usage of the following syntax:
+         * <code>file:[WebkitBundle]/Default/layout.html.tpl</code>
          */
+        foreach ($container->getParameter('kernel.bundles') as $bundle) {
+            $reflection = new \ReflectionClass($bundle);
+            if (is_dir($dir = dirname($reflection->getFilename()) . '/Resources/views')) {
+                $this->core->setTemplateDir($dir);
+            }
+        }
+
         if (null !== $globals) {
             $this->addGlobal('app', $globals);
         }
+    }
+
+    /**
+     * Pass methods not available in this engine to the Dwoo\Core instance.
+     *
+     * @param string $name
+     * @param mixed  $args
+     *
+     * @return mixed
+     */
+    public function __call($name, $args)
+    {
+        return call_user_func_array([$this->core, $name], $args);
     }
 
     /**
