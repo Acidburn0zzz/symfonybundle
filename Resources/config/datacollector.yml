@@ -1,0 +1,6 @@
+services:
+    data_collector.dwoo:
+        class: Dwoo\SymfonyBundle\DataCollector\DwooDataCollector
+        public: false
+        tags:
+            - { name: data_collector, template: "DwooSymfonyBundle:Collector:dwoo", id: dwoo }
