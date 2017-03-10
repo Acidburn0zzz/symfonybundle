@@ -37,6 +37,7 @@ class Configuration implements ConfigurationInterface
 
         $this->addGlobalsSection($rootNode);
         $this->addDwooOptions($rootNode);
+        $this->addWebProfiler($rootNode);
 
         return $treeBuilder;
     }

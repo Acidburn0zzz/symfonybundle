@@ -3,4 +3,4 @@ services:
         class: Dwoo\SymfonyBundle\DataCollector\DwooDataCollector
         public: false
         tags:
-            - { name: data_collector, template: "DwooSymfonyBundle:Collector:dwoo", id: dwoo }
+            - { name: data_collector, template: "data_collector/dwoo.html.twig", id: "dwoo.data_collector" }

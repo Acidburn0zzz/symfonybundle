@@ -35,6 +35,6 @@ class DwooDataCollector extends DataCollector
      */
     public function getName()
     {
-        return 'dwoo';
+        return 'dwoo.data_collector';
     }
 }
