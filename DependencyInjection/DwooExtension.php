@@ -41,6 +41,9 @@ class DwooExtension extends Extension
         $config           = $this->processConfiguration($configuration, $configs);
         $engineDefinition = $container->getDefinition('templating.engine.dwoo');
 
+        /**
+         * Load globals
+         */
         if (!empty($config['globals'])) {
             foreach ($config['globals'] as $key => $global) {
                 if (isset($global['type']) && 'service' === $global['type']) {
@@ -49,6 +52,13 @@ class DwooExtension extends Extension
                     $engineDefinition->addMethodCall('addGlobal', [$key, $global['value']]);
                 }
             }
+        }
+
+        /**
+         * Load WebProfiler
+         */
+        if (!empty($config['web_profiler'])) {
+            $loader->load('datacollector.yml');
         }
 
         $container->setParameter('dwoo.options', $config['options']);

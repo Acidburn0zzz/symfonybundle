@@ -104,4 +104,21 @@ class Configuration implements ConfigurationInterface
             ->end()
         ;
     }
+
+    /**
+     * WebProfiler
+     *
+     * @param ArrayNodeDefinition $rootNode
+     */
+    protected function addWebProfiler(ArrayNodeDefinition $rootNode)
+    {
+        $rootNode
+            ->children()
+                ->booleanNode('web_profiler')
+                    ->defaultFalse()
+                ->end()
+            ->end()
+        ;
+
+    }
 }
