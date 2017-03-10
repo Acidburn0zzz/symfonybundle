@@ -49,10 +49,20 @@ class DwooEngine implements EngineInterface
         $this->parser = $parser;
         $this->loader = $loader;
 
+        /**
+         * Call Dwoo\Core setter from options
+         */
         foreach ($options as $property => $value) {
-            $this->core->{$this->propertyToSetter($property)}($value);
+            $property = $this->propertyToSetter($property);
+            if (!method_exists($this->core, $property)) {
+                continue;
+            }
+            $this->core->{$property}($value);
         }
 
+        /**
+         * Set global variables
+         */
         if (null !== $globals) {
             $this->addGlobal('app', $globals);
         }
