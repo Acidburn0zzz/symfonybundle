@@ -1,4 +1,7 @@
 <?php
+/**
+ */
+
 namespace Dwoo\SymfonyBundle\DataCollector;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +41,14 @@ class DwooDataCollector extends DataCollector
         return 'dwoo';
     }
 
-    public function __call($name)
+    /**
+     * @param string $name
+     * @param array  $arguments
+     *
+     * @return mixed
+     */
+    public function __call($name, array $arguments)
     {
+        return call_user_func_array($name, $arguments);
     }
 }
