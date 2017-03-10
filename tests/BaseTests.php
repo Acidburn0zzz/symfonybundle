@@ -17,7 +17,7 @@ namespace Dwoo\SymfonyBundle\Tests
      *
      * @package Dwoo\SymfonyBundle\Tests
      */
-    class BaseTests extends PHPUnit_Framework_TestCase
+    class BaseTests extends \PHPUnit_Framework_TestCase
     {
 
         protected $core;
