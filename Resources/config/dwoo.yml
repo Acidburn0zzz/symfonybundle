@@ -6,7 +6,7 @@ services:
       tags:
           - { name: templating.engine }
           - { name: monolog.logger, channel: DwooBundle }
-      arguments: ["@dwoo", "@templating.name_parser", "@templating.loader", "%dwoo.options%", "@?templating.globals"]
+      arguments: ["@dwoo", "@service_container", "@templating.name_parser", "@templating.loader", "%dwoo.options%", "@?templating.globals"]
   dwoo.templating.finder:
       class: Dwoo\SymfonyBundle\CacheWarmer\DwooTemplateFinder
       arguments: ["@kernel", "@templating.filename_parser", "%kernel.root_dir%/Resources"]
