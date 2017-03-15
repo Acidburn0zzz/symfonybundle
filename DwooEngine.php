@@ -1,4 +1,17 @@
 <?php
+/**
+ * Copyright (c) 2017
+ *
+ * @category  Library
+ * @package   Dwoo\SymfonBundle
+ * @author    David Sanchez <david38sanchez@gmail.com>
+ * @copyright 2017 David Sanchez
+ * @license   http://dwoo.org/LICENSE LGPLv3
+ * @version   1.0.0
+ * @date      2017-03-15
+ * @link      http://symfony.dwoo.org/
+ */
+
 namespace Dwoo\SymfonyBundle;
 
 use Dwoo\Core;
@@ -133,12 +146,7 @@ class DwooEngine implements EngineInterface
         $data = new Data();
         $data->assign($parameters);
 
-        try {
-            return $this->core->get($name, $data);
-        }
-        catch (\Exception $e) {
-            return sprintf('"%s"', $e->getMessage());
-        }
+        return $this->core->get($name, $data);
     }
 
     /**
