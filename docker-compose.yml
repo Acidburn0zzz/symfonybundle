@@ -1,0 +1,7 @@
+version: '2'
+services:
+  phpfarm:
+    container_name: dwoobundle
+    image: splitbrain/phpfarm:jessie
+    volumes:
+      - ./:/usr/src/dwoobundle
