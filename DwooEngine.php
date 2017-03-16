@@ -8,7 +8,7 @@
  * @copyright 2017 David Sanchez
  * @license   http://dwoo.org/LICENSE LGPLv3
  * @version   1.0.0
- * @date      2017-03-15
+ * @date      2017-03-16
  * @link      http://symfony.dwoo.org/
  */
 
@@ -47,6 +47,8 @@ class DwooEngine implements EngineInterface
     /** @var  array */
     protected $globals = [];
 
+    protected $plugins = [];
+
     /**
      * DwooEngine constructor.
      *
@@ -57,8 +59,7 @@ class DwooEngine implements EngineInterface
      * @param array                       $options   An array of \Dwoo\Core properties
      * @param GlobalVariables             $globals   A GlobalVariables instance or null
      */
-    public function __construct(Core $core, ContainerInterface $container, TemplateNameParserInterface $parser,
-                                LoaderInterface $loader, array $options = [], GlobalVariables $globals = null)
+    public function __construct(Core $core, ContainerInterface $container, TemplateNameParserInterface $parser, LoaderInterface $loader, array $options = [], GlobalVariables $globals = null)
     {
         $this->core   = $core;
         $this->parser = $parser;
@@ -87,6 +88,9 @@ class DwooEngine implements EngineInterface
             }
         }
 
+        /**
+         * Add global variables
+         */
         if (null !== $globals) {
             $this->addGlobal('app', $globals);
         }
@@ -137,6 +141,9 @@ class DwooEngine implements EngineInterface
      */
     public function render($name, array $parameters = [])
     {
+        // Register SymfonyBundle custom plugins
+        $this->registerPlugins();
+
         // attach the global variables
         $parameters = array_replace($this->globals, $parameters);
 
@@ -231,6 +238,36 @@ class DwooEngine implements EngineInterface
     public function getGlobals()
     {
         return $this->globals;
+    }
+
+    /**
+     * Adds a plugin to the collection.
+     *
+     * @param $plugin
+     */
+    public function addPlugin($plugin)
+    {
+        $this->plugins[] = $plugin;
+    }
+
+    /**
+     * Gets the collection of plugins.
+     *
+     * @return array
+     */
+    public function getPlugins()
+    {
+        return $this->plugins;
+    }
+
+    /**
+     * Dynamically register plugins to Dwoo.
+     */
+    public function registerPlugins()
+    {
+        foreach ($this->getPlugins() as $plugin) {
+            $this->core->addPlugin($plugin->getName(), $plugin);
+        }
     }
 
     /**
