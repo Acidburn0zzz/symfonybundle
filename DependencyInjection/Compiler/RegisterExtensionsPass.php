@@ -1,4 +1,17 @@
 <?php
+/**
+ * Copyright (c) 2017
+ *
+ * @category  Library
+ * @package   Dwoo\SymfonBundle\DependencyInjection\Compiler
+ * @author    David Sanchez <david38sanchez@gmail.com>
+ * @copyright 2017 David Sanchez
+ * @license   http://dwoo.org/LICENSE LGPLv3
+ * @version   1.0.0
+ * @date      2017-03-16
+ * @link      http://symfony.dwoo.org/
+ */
+
 namespace Dwoo\SymfonyBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -28,8 +41,8 @@ class RegisterExtensionsPass implements CompilerPassInterface
 
         $calls = $definition->getMethodCalls();
         $definition->setMethodCalls([]);
-        foreach ($container->findTaggedServiceIds('dwoo.extension') as $id => $attributes) {
-            $definition->addMethodCall('addExtension', [new Reference($id)]);
+        foreach ($container->findTaggedServiceIds('dwoo.plugin') as $id => $attributes) {
+            $definition->addMethodCall('addPlugin', [new Reference($id)]);
         }
         $definition->setMethodCalls(array_merge($definition->getMethodCalls(), $calls));
     }
