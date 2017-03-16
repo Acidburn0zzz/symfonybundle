@@ -10,5 +10,11 @@ services:
   dwoo.templating.finder:
       class: Dwoo\SymfonyBundle\CacheWarmer\DwooTemplateFinder
       arguments: ["@kernel", "@templating.filename_parser", "%kernel.root_dir%/Resources"]
+  dwoo.plugin.asset:
+      class: Dwoo\SymfonyBundle\Plugins\Functions\PluginAsset
+      public: false
+      tags:
+          - { name: dwoo.plugin }
+      arguments: ["@dwoo", "@assets.packages"]
   dwoo_engine: "@templating.engine.dwoo"
   dwoo.engine: "@templating.engine.dwoo"
