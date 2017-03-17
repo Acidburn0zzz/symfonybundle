@@ -8,7 +8,7 @@
  * @copyright 2017 David Sanchez
  * @license   http://dwoo.org/LICENSE LGPLv3
  * @version   1.0.0
- * @date      2017-03-16
+ * @date      2017-03-17
  * @link      http://symfony.dwoo.org/
  */
 
@@ -16,6 +16,7 @@ namespace Dwoo\SymfonyBundle;
 
 use Dwoo\Core;
 use Dwoo\Data;
+use Dwoo\ICompilable;
 use Dwoo\ITemplate;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables;
@@ -266,7 +267,11 @@ class DwooEngine implements EngineInterface
     public function registerPlugins()
     {
         foreach ($this->getPlugins() as $plugin) {
-            $this->core->addPlugin($plugin->getName(), $plugin);
+            $compilable = false;
+            if ($plugin instanceof ICompilable || $plugin instanceof ICompilable\Block) {
+                $compilable = true;
+            }
+            $this->core->addPlugin($plugin->getName(), get_class($plugin), $compilable);
         }
     }
 
