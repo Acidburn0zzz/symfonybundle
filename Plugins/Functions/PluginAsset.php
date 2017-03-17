@@ -8,14 +8,14 @@
  * @copyright 2017 David Sanchez
  * @license   http://dwoo.org/LICENSE LGPLv3
  * @version   1.0.0
- * @date      2017-03-16
+ * @date      2017-03-17
  * @link      http://symfony.dwoo.org/
  */
 
 namespace Dwoo\SymfonyBundle\Plugins\Functions;
 
-use Dwoo\Core;
 use Dwoo\Plugin;
+use Dwoo\SymfonyBundle\Plugins\Plugins;
 use Symfony\Component\Asset\Packages;
 
 /**
@@ -25,30 +25,24 @@ use Symfony\Component\Asset\Packages;
  */
 class PluginAsset extends Plugin
 {
-
-    /** @var Packages */
-    protected $packages;
-
-    /**
-     * PluginAsset constructor.
-     *
-     * @param Core     $core
-     * @param Packages $packages
-     */
-    public function __construct(Core $core, Packages $packages)
-    {
-        $this->packages = $packages;
-        parent::__construct($core);
-    }
+    /** Use trait Plugins to have access to Container class */
+    use Plugins;
 
     /**
-     * @param string $url
+     * Returns the public path of an asset.
+     * Absolute paths (i.e. http://...) are returned unmodified.
      *
-     * @return mixed
+     * @param string $path        A public path
+     * @param string $packageName The name of the asset package to use
+     *
+     * @return string A public path which takes into account the base path and URL path
      */
-    public function process($url)
+    public function process($path, $packageName = null)
     {
-        return $url;
+        /** @var Packages $packages */
+        $packages = $this->container->get('assets.packages');
+
+        return $packages->getUrl($path, $packageName);
     }
 
     /**
