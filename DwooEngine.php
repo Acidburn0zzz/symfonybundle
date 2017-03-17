@@ -48,6 +48,7 @@ class DwooEngine implements EngineInterface
     /** @var  array */
     protected $globals = [];
 
+    /** @var array */
     protected $plugins = [];
 
     /**
@@ -92,8 +93,9 @@ class DwooEngine implements EngineInterface
         /**
          * Add global variables
          */
+        $this->core->addGlobal('container', $container);
         if (null !== $globals) {
-            $this->addGlobal('app', $globals);
+            $this->core->addGlobal('app', $globals);
         }
     }
 
@@ -144,9 +146,6 @@ class DwooEngine implements EngineInterface
     {
         // Register SymfonyBundle custom plugins
         $this->registerPlugins();
-
-        // attach the global variables
-        $parameters = array_replace($this->globals, $parameters);
 
         /**
          * Assign variables/objects to the templates.
@@ -218,27 +217,6 @@ class DwooEngine implements EngineInterface
         }
 
         return (string)$template;
-    }
-
-    /**
-     * Registers a Global.
-     *
-     * @param string $name  The global name
-     * @param mixed  $value The global value
-     */
-    public function addGlobal($name, $value)
-    {
-        $this->globals[$name] = $value;
-    }
-
-    /**
-     * Gets the registered Globals.
-     *
-     * @return array An array of Globals
-     */
-    public function getGlobals()
-    {
-        return $this->globals;
     }
 
     /**
