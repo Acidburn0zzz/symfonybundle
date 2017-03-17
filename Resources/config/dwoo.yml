@@ -15,6 +15,6 @@ services:
       public: false
       tags:
           - { name: dwoo.plugin }
-      arguments: ["@dwoo", "@assets.packages"]
+      arguments: ["@dwoo"]
   dwoo_engine: "@templating.engine.dwoo"
   dwoo.engine: "@templating.engine.dwoo"
