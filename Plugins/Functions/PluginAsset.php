@@ -8,7 +8,7 @@
  * @copyright 2017 David Sanchez
  * @license   http://dwoo.org/LICENSE LGPLv3
  * @version   1.0.0
- * @date      2017-03-17
+ * @date      2017-03-21
  * @link      http://symfony.dwoo.org/
  */
 
@@ -21,7 +21,7 @@ use Symfony\Component\Asset\Packages;
 /**
  * Class PluginAsset
  *
- * @package Dwoo\SymfonyBundle\Plugins\Blocks
+ * @package Dwoo\SymfonyBundle\Plugins\Functions
  */
 class PluginAsset extends Plugin
 {
