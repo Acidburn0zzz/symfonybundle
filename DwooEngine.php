@@ -249,7 +249,7 @@ class DwooEngine implements EngineInterface
             if ($plugin instanceof ICompilable || $plugin instanceof ICompilable\Block) {
                 $compilable = true;
             }
-            $this->core->addPlugin($plugin->getName(), get_class($plugin), $compilable);
+            $this->core->addPlugin($plugin->getName(), $plugin, $compilable);
         }
     }
 
