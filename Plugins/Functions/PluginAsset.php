@@ -8,7 +8,7 @@
  * @copyright 2017 David Sanchez
  * @license   http://dwoo.org/LICENSE LGPLv3
  * @version   1.0.0
- * @date      2017-03-21
+ * @date      2017-03-23
  * @link      http://symfony.dwoo.org/
  */
 
@@ -40,7 +40,7 @@ class PluginAsset extends Plugin
     public function process($path, $packageName = null)
     {
         /** @var Packages $packages */
-        $packages = $this->container->get('assets.packages');
+        $packages = $this->getContainer()->get('assets.packages');
 
         return $packages->getUrl($path, $packageName);
     }

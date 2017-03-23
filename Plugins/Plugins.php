@@ -8,7 +8,7 @@
  * @copyright 2017 David Sanchez
  * @license   http://dwoo.org/LICENSE LGPLv3
  * @version   1.0.0
- * @date      2017-03-17
+ * @date      2017-03-23
  * @link      http://symfony.dwoo.org/
  */
 
@@ -39,5 +39,29 @@ trait Plugins
 
         /** @var Container $container */
         $this->container = $this->core->getGlobals()['container'];
+    }
+
+    /**
+     * Get container
+     *
+     * @return Container
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * Set container
+     *
+     * @param Container $container
+     *
+     * @return Plugins
+     */
+    public function setContainer($container)
+    {
+        $this->container = $container;
+
+        return $this;
     }
 }
