@@ -20,8 +20,8 @@
     },
 	"repositories": [
 		{
-			"url": "https://gitlab.com/dwooproject/dwoo.git",
-			"type": "vcs"
+			"type": "vcs",
+			"url": "https://gitlab.com/dwooproject/dwoo.git"
 		}
 	],
     "require": {
