@@ -30,11 +30,10 @@ class PluginPath extends Plugin
     use Plugins;
 
     /**
-     * Returns the public path of an asset.
-     * Absolute paths (i.e. http://...) are returned unmodified.
+     * Generates a URL from the given parameters.
      *
-     * @param string $name
-     * @param array  $parameters
+     * @param string $name       The name of the route
+     * @param array  $parameters An array of parameters
      *
      * @return string A public path which takes into account the base path and URL path
      */
