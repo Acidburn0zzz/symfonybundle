@@ -17,16 +17,22 @@ services:
           - { name: dwoo.plugin }
       arguments: ["@dwoo"]
   dwoo.plugin.path:
-        class: Dwoo\SymfonyBundle\Plugins\Functions\PluginPath
-        public: false
-        tags:
-            - { name: dwoo.plugin }
-        arguments: ["@dwoo"]
+      class: Dwoo\SymfonyBundle\Plugins\Functions\PluginPath
+      public: false
+      tags:
+          - { name: dwoo.plugin }
+      arguments: ["@dwoo"]
   dwoo.plugin.url:
-        class: Dwoo\SymfonyBundle\Plugins\Functions\PluginUrl
-        public: false
-        tags:
-            - { name: dwoo.plugin }
-        arguments: ["@dwoo"]
+      class: Dwoo\SymfonyBundle\Plugins\Functions\PluginUrl
+      public: false
+      tags:
+          - { name: dwoo.plugin }
+      arguments: ["@dwoo"]
+  dwoo.plugin.trans:
+      class: Dwoo\SymfonyBundle\Plugins\Blocks\PluginTrans
+      public: false
+      tags:
+          - { name: dwoo.plugin }
+      arguments: ["@dwoo"]
   dwoo_engine: "@templating.engine.dwoo"
   dwoo.engine: "@templating.engine.dwoo"
