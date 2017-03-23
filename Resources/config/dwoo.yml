@@ -28,6 +28,12 @@ services:
       tags:
           - { name: dwoo.plugin }
       arguments: ["@dwoo"]
+  dwoo.plugin.javascripts:
+      class: Dwoo\SymfonyBundle\Plugins\Blocks\PluginJavascripts
+      public: false
+      tags:
+          - { name: dwoo.plugin }
+      arguments: ["@dwoo"]
   dwoo.plugin.trans:
       class: Dwoo\SymfonyBundle\Plugins\Blocks\PluginTrans
       public: false
