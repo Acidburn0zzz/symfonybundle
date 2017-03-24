@@ -18,12 +18,6 @@
             "Dwoo\\SymfonyBundle\\Tests\\": "tests/"
         }
     },
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "https://gitlab.com/dwooproject/dwoo.git"
-		}
-	],
     "require": {
         "php": "~5.5|~7.0",
         "symfony/framework-bundle": "~2.8|~3.0",
