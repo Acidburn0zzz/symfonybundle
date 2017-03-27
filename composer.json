@@ -27,8 +27,8 @@
     "require-dev": {
         "phpunit/phpunit": "4.8.27"
     },
-	"suggest": {
-		"symfony/asset": "Symfony asset support in Dwoo templates",
-		"symfony/assetic-bundle": "Assetic support in Dwoo templates"
-	}
+    "suggest": {
+        "symfony/asset": "Symfony asset support in Dwoo templates",
+        "symfony/assetic-bundle": "Assetic support in Dwoo templates"
+    }
 }
