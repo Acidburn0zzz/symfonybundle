@@ -1,5 +1,9 @@
 DwooBundle for Symfony
 ======================
+[![Latest Stable Version](https://poser.pugx.org/dwoo/symfony-bundle/v/stable?format=flat-square)](https://packagist.org/packages/dwoo/symfony-bundle)
+[![Total Downloads](https://poser.pugx.org/dwoo/symfony-bundle/downloads?format=flat-square)](https://packagist.org/packages/dwoo/symfony-bundle)
+[![License](https://poser.pugx.org/dwoo/symfony-bundle/license?format=flat-square)](https://packagist.org/packages/dwoo/symfony-bundle)
+
 This [Symfony](http://symfony.com/) bundle provides integration for [Dwoo](http://dwoo.org) template engine.
 
 Requirements
